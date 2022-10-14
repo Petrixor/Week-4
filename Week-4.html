@@ -444,6 +444,8 @@ compact</td>
 </tr>
 </tbody>
 </table>
+<div id="selecting-rowsobservations---filter" class="section level4">
+<h4>Selecting rows/observations - <code>filter()</code></h4>
 <pre class="r"><code>filter(mpg, manufacturer == &#39;audi&#39;)</code></pre>
 <pre><code>## # A tibble: 18 × 11
 ##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
@@ -509,6 +511,583 @@ compact</td>
 ## 7 audi         a4 quattro   2.8  1999     6 auto(… 4        15    25 p     comp…
 ## 8 audi         a4 quattro   2.8  1999     6 manua… 4        17    25 p     comp…
 ## 9 audi         a6 quattro   2.8  1999     6 auto(… 4        15    24 p     mids…</code></pre>
+<pre class="r"><code>filter(mpg, manufacturer == &quot;audi&quot; | year == 1999) #manufacturer is Audi or the year is 1999</code></pre>
+<pre><code>## # A tibble: 126 × 11
+##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
+##    &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 audi         a4           1.8  1999     4 auto… f        18    29 p     comp…
+##  2 audi         a4           1.8  1999     4 manu… f        21    29 p     comp…
+##  3 audi         a4           2    2008     4 manu… f        20    31 p     comp…
+##  4 audi         a4           2    2008     4 auto… f        21    30 p     comp…
+##  5 audi         a4           2.8  1999     6 auto… f        16    26 p     comp…
+##  6 audi         a4           2.8  1999     6 manu… f        18    26 p     comp…
+##  7 audi         a4           3.1  2008     6 auto… f        18    27 p     comp…
+##  8 audi         a4 quattro   1.8  1999     4 manu… 4        18    26 p     comp…
+##  9 audi         a4 quattro   1.8  1999     4 auto… 4        16    25 p     comp…
+## 10 audi         a4 quattro   2    2008     4 manu… 4        20    28 p     comp…
+## # … with 116 more rows</code></pre>
+<pre class="r"><code>filter(mpg, year == 1999, manufacturer != &quot;audi&quot;) #manufacturer is not Audi and the year is 1999</code></pre>
+<pre><code>## # A tibble: 108 × 11
+##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
+##    &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 chevrolet    c1500 sub…   5.7  1999     8 auto… r        13    17 r     suv  
+##  2 chevrolet    corvette     5.7  1999     8 manu… r        16    26 p     2sea…
+##  3 chevrolet    corvette     5.7  1999     8 auto… r        15    23 p     2sea…
+##  4 chevrolet    k1500 tah…   5.7  1999     8 auto… 4        11    15 r     suv  
+##  5 chevrolet    k1500 tah…   6.5  1999     8 auto… 4        14    17 d     suv  
+##  6 chevrolet    malibu       2.4  1999     4 auto… f        19    27 r     mids…
+##  7 chevrolet    malibu       3.1  1999     6 auto… f        18    26 r     mids…
+##  8 dodge        caravan 2…   2.4  1999     4 auto… f        18    24 r     mini…
+##  9 dodge        caravan 2…   3    1999     6 auto… f        17    24 r     mini…
+## 10 dodge        caravan 2…   3.3  1999     6 auto… f        16    22 r     mini…
+## # … with 98 more rows</code></pre>
+<pre class="r"><code>filter(mpg, (manufacturer %in% c(&quot;audi&quot;, &quot;chevrolet&quot;)), year == 1999) %&gt;% count(manufacturer)</code></pre>
+<pre><code>## # A tibble: 2 × 2
+##   manufacturer     n
+##   &lt;chr&gt;        &lt;int&gt;
+## 1 audi             9
+## 2 chevrolet        7</code></pre>
+<pre class="r"><code>sample_frac(mpg, 0.05, replace = TRUE) #sample 5% of the data</code></pre>
+<pre><code>## # A tibble: 12 × 11
+##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
+##    &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 chevrolet    corvette     5.7  1999     8 auto… r        15    23 p     2sea…
+##  2 nissan       altima       2.4  1999     4 auto… f        19    27 r     comp…
+##  3 chevrolet    k1500 tah…   5.3  2008     8 auto… 4        14    19 r     suv  
+##  4 ford         expeditio…   4.6  1999     8 auto… r        11    17 r     suv  
+##  5 chevrolet    k1500 tah…   5.3  2008     8 auto… 4        14    19 r     suv  
+##  6 dodge        ram 1500 …   4.7  2008     8 manu… 4         9    12 e     pick…
+##  7 toyota       toyota ta…   3.4  1999     6 auto… 4        15    19 r     pick…
+##  8 volkswagen   new beetle   2    1999     4 auto… f        19    26 r     subc…
+##  9 nissan       maxima       3    1999     6 manu… f        19    25 r     mids…
+## 10 audi         a4           1.8  1999     4 manu… f        21    29 p     comp…
+## 11 audi         a4           2    2008     4 auto… f        21    30 p     comp…
+## 12 dodge        dakota pi…   4.7  2008     8 auto… 4        14    19 r     pick…</code></pre>
+<pre class="r"><code>sample_n(mpg, 10, replace = TRUE) #sample of 10 rows</code></pre>
+<pre><code>## # A tibble: 10 × 11
+##    manufacturer model      displ  year   cyl trans drv     cty   hwy fl    class
+##    &lt;chr&gt;        &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 audi         a4 quattro   2.8  1999     6 manu… 4        17    25 p     comp…
+##  2 toyota       land crui…   5.7  2008     8 auto… 4        13    18 r     suv  
+##  3 chevrolet    c1500 sub…   5.3  2008     8 auto… r        14    20 r     suv  
+##  4 dodge        ram 1500 …   5.2  1999     8 manu… 4        11    16 r     pick…
+##  5 dodge        dakota pi…   4.7  2008     8 auto… 4         9    12 e     pick…
+##  6 chevrolet    malibu       3.6  2008     6 auto… f        17    26 r     mids…
+##  7 dodge        caravan 2…   3.8  1999     6 auto… f        15    21 r     mini…
+##  8 nissan       pathfinde…   4    2008     6 auto… 4        14    20 p     suv  
+##  9 volkswagen   passat       2    2008     4 auto… f        19    28 p     mids…
+## 10 chevrolet    c1500 sub…   5.3  2008     8 auto… r        14    20 r     suv</code></pre>
+</div>
+<div id="reordering-rows---arrange" class="section level4">
+<h4>Reordering rows - <code>arrange()</code></h4>
+<pre class="r"><code>arrange(Rio2016Medals, Country)</code></pre>
+<pre><code>##                         Country Gold Silver Bronze
+## 1                       Algeria    0      2      0
+## 2                     Argentina    3      1      0
+## 3                       Armenia    1      3      0
+## 4                     Australia    8     11     10
+## 5                       Austria    0      0      1
+## 6                    Azerbaijan    1      7     10
+## 7                       Bahamas    1      0      1
+## 8                       Bahrain    1      1      0
+## 9                       Belarus    1      4      4
+## 10                      Belgium    2      2      2
+## 11                       Brazil    7      6      6
+## 12                     Bulgaria    0      1      2
+## 13                      Burundi    0      1      0
+## 14                       Canada    4      3     15
+## 15                        China   26     18     26
+## 16                     Colombia    3      2      3
+## 17                Cote d&#39;Ivoire    1      0      1
+## 18                      Croatia    5      3      2
+## 19                         Cuba    5      2      4
+## 20               Czech Republic    1      2      7
+## 21                      Denmark    2      6      7
+## 22           Dominican Republic    0      0      1
+## 23                        Egypt    0      0      3
+## 24                      Estonia    0      0      1
+## 25                     Ethiopia    1      2      5
+## 26                         Fiji    1      0      0
+## 27                      Finland    0      0      1
+## 28                       France   10     18     14
+## 29                      Georgia    2      1      4
+## 30                      Germany   17     10     15
+## 31                       Greece    3      1      2
+## 32                      Grenada    0      1      0
+## 33                      Hungary    8      3      4
+## 34 Independent Olympic Athletes    1      0      1
+## 35                        India    0      1      1
+## 36                    Indonesia    1      2      0
+## 37                         Iran    3      1      4
+## 38                      Ireland    0      2      0
+## 39                       Israel    0      0      2
+## 40                        Italy    8     12      8
+## 41                      Jamaica    6      3      2
+## 42                        Japan   12      8     21
+## 43                       Jordan    1      0      0
+## 44                   Kazakhstan    3      5      9
+## 45                        Kenya    6      6      1
+## 46                       Kosovo    1      0      0
+## 47                    Lithuania    0      1      3
+## 48                     Malaysia    0      4      1
+## 49                       Mexico    0      3      2
+## 50                      Moldova    0      0      1
+## 51                     Mongolia    0      1      1
+## 52                      Morocco    0      0      1
+## 53                  Netherlands    8      7      4
+## 54                  New Zealand    4      9      5
+## 55                        Niger    0      1      0
+## 56                      Nigeria    0      0      1
+## 57                  North Korea    2      3      2
+## 58                       Norway    0      0      4
+## 59                  Philippines    0      1      0
+## 60                       Poland    2      3      6
+## 61                     Portugal    0      0      1
+## 62                  Puerto Rico    1      0      0
+## 63                        Qatar    0      1      0
+## 64                      Romania    1      1      3
+## 65                       Russia   19     18     19
+## 66                       Serbia    2      4      2
+## 67                    Singapore    1      0      0
+## 68                     Slovakia    2      2      0
+## 69                     Slovenia    1      2      1
+## 70                 South Africa    2      6      2
+## 71                  South Korea    9      3      9
+## 72                        Spain    7      4      6
+## 73                       Sweden    2      6      3
+## 74                  Switzerland    3      2      2
+## 75                       Taiwan    1      0      2
+## 76                   Tajikistan    1      0      0
+## 77                     Thailand    2      2      2
+## 78          Trinidad and Tobago    0      0      1
+## 79                      Tunisia    0      0      3
+## 80                       Turkey    1      3      4
+## 81                      Ukraine    2      5      4
+## 82         United Arab Emirates    0      0      1
+## 83               United Kingdom   27     23     17
+## 84                United States   46     37     38
+## 85                   Uzbekistan    4      2      7
+## 86                    Venezuela    0      1      2
+## 87                      Vietnam    1      1      0</code></pre>
+<pre class="r"><code>arrange(Rio2016Medals, desc(Country)) #Descending order</code></pre>
+<pre><code>##                         Country Gold Silver Bronze
+## 1                       Vietnam    1      1      0
+## 2                     Venezuela    0      1      2
+## 3                    Uzbekistan    4      2      7
+## 4                 United States   46     37     38
+## 5                United Kingdom   27     23     17
+## 6          United Arab Emirates    0      0      1
+## 7                       Ukraine    2      5      4
+## 8                        Turkey    1      3      4
+## 9                       Tunisia    0      0      3
+## 10          Trinidad and Tobago    0      0      1
+## 11                     Thailand    2      2      2
+## 12                   Tajikistan    1      0      0
+## 13                       Taiwan    1      0      2
+## 14                  Switzerland    3      2      2
+## 15                       Sweden    2      6      3
+## 16                        Spain    7      4      6
+## 17                  South Korea    9      3      9
+## 18                 South Africa    2      6      2
+## 19                     Slovenia    1      2      1
+## 20                     Slovakia    2      2      0
+## 21                    Singapore    1      0      0
+## 22                       Serbia    2      4      2
+## 23                       Russia   19     18     19
+## 24                      Romania    1      1      3
+## 25                        Qatar    0      1      0
+## 26                  Puerto Rico    1      0      0
+## 27                     Portugal    0      0      1
+## 28                       Poland    2      3      6
+## 29                  Philippines    0      1      0
+## 30                       Norway    0      0      4
+## 31                  North Korea    2      3      2
+## 32                      Nigeria    0      0      1
+## 33                        Niger    0      1      0
+## 34                  New Zealand    4      9      5
+## 35                  Netherlands    8      7      4
+## 36                      Morocco    0      0      1
+## 37                     Mongolia    0      1      1
+## 38                      Moldova    0      0      1
+## 39                       Mexico    0      3      2
+## 40                     Malaysia    0      4      1
+## 41                    Lithuania    0      1      3
+## 42                       Kosovo    1      0      0
+## 43                        Kenya    6      6      1
+## 44                   Kazakhstan    3      5      9
+## 45                       Jordan    1      0      0
+## 46                        Japan   12      8     21
+## 47                      Jamaica    6      3      2
+## 48                        Italy    8     12      8
+## 49                       Israel    0      0      2
+## 50                      Ireland    0      2      0
+## 51                         Iran    3      1      4
+## 52                    Indonesia    1      2      0
+## 53                        India    0      1      1
+## 54 Independent Olympic Athletes    1      0      1
+## 55                      Hungary    8      3      4
+## 56                      Grenada    0      1      0
+## 57                       Greece    3      1      2
+## 58                      Germany   17     10     15
+## 59                      Georgia    2      1      4
+## 60                       France   10     18     14
+## 61                      Finland    0      0      1
+## 62                         Fiji    1      0      0
+## 63                     Ethiopia    1      2      5
+## 64                      Estonia    0      0      1
+## 65                        Egypt    0      0      3
+## 66           Dominican Republic    0      0      1
+## 67                      Denmark    2      6      7
+## 68               Czech Republic    1      2      7
+## 69                         Cuba    5      2      4
+## 70                      Croatia    5      3      2
+## 71                Cote d&#39;Ivoire    1      0      1
+## 72                     Colombia    3      2      3
+## 73                        China   26     18     26
+## 74                       Canada    4      3     15
+## 75                      Burundi    0      1      0
+## 76                     Bulgaria    0      1      2
+## 77                       Brazil    7      6      6
+## 78                      Belgium    2      2      2
+## 79                      Belarus    1      4      4
+## 80                      Bahrain    1      1      0
+## 81                      Bahamas    1      0      1
+## 82                   Azerbaijan    1      7     10
+## 83                      Austria    0      0      1
+## 84                    Australia    8     11     10
+## 85                      Armenia    1      3      0
+## 86                    Argentina    3      1      0
+## 87                      Algeria    0      2      0</code></pre>
+<pre class="r"><code>arrange(Rio2016Medals, desc(Gold), desc(Silver), desc(Bronze))</code></pre>
+<pre><code>##                         Country Gold Silver Bronze
+## 1                 United States   46     37     38
+## 2                United Kingdom   27     23     17
+## 3                         China   26     18     26
+## 4                        Russia   19     18     19
+## 5                       Germany   17     10     15
+## 6                         Japan   12      8     21
+## 7                        France   10     18     14
+## 8                   South Korea    9      3      9
+## 9                         Italy    8     12      8
+## 10                    Australia    8     11     10
+## 11                  Netherlands    8      7      4
+## 12                      Hungary    8      3      4
+## 13                       Brazil    7      6      6
+## 14                        Spain    7      4      6
+## 15                        Kenya    6      6      1
+## 16                      Jamaica    6      3      2
+## 17                      Croatia    5      3      2
+## 18                         Cuba    5      2      4
+## 19                  New Zealand    4      9      5
+## 20                       Canada    4      3     15
+## 21                   Uzbekistan    4      2      7
+## 22                   Kazakhstan    3      5      9
+## 23                     Colombia    3      2      3
+## 24                  Switzerland    3      2      2
+## 25                         Iran    3      1      4
+## 26                       Greece    3      1      2
+## 27                    Argentina    3      1      0
+## 28                      Denmark    2      6      7
+## 29                       Sweden    2      6      3
+## 30                 South Africa    2      6      2
+## 31                      Ukraine    2      5      4
+## 32                       Serbia    2      4      2
+## 33                       Poland    2      3      6
+## 34                  North Korea    2      3      2
+## 35                      Belgium    2      2      2
+## 36                     Thailand    2      2      2
+## 37                     Slovakia    2      2      0
+## 38                      Georgia    2      1      4
+## 39                   Azerbaijan    1      7     10
+## 40                      Belarus    1      4      4
+## 41                       Turkey    1      3      4
+## 42                      Armenia    1      3      0
+## 43               Czech Republic    1      2      7
+## 44                     Ethiopia    1      2      5
+## 45                     Slovenia    1      2      1
+## 46                    Indonesia    1      2      0
+## 47                      Romania    1      1      3
+## 48                      Bahrain    1      1      0
+## 49                      Vietnam    1      1      0
+## 50                       Taiwan    1      0      2
+## 51                      Bahamas    1      0      1
+## 52 Independent Olympic Athletes    1      0      1
+## 53                Cote d&#39;Ivoire    1      0      1
+## 54                   Tajikistan    1      0      0
+## 55                       Kosovo    1      0      0
+## 56                         Fiji    1      0      0
+## 57                    Singapore    1      0      0
+## 58                       Jordan    1      0      0
+## 59                  Puerto Rico    1      0      0
+## 60                     Malaysia    0      4      1
+## 61                       Mexico    0      3      2
+## 62                      Algeria    0      2      0
+## 63                      Ireland    0      2      0
+## 64                    Lithuania    0      1      3
+## 65                     Bulgaria    0      1      2
+## 66                    Venezuela    0      1      2
+## 67                        India    0      1      1
+## 68                     Mongolia    0      1      1
+## 69                      Grenada    0      1      0
+## 70                        Qatar    0      1      0
+## 71                      Burundi    0      1      0
+## 72                        Niger    0      1      0
+## 73                  Philippines    0      1      0
+## 74                       Norway    0      0      4
+## 75                      Tunisia    0      0      3
+## 76                        Egypt    0      0      3
+## 77                       Israel    0      0      2
+## 78          Trinidad and Tobago    0      0      1
+## 79                      Morocco    0      0      1
+## 80                      Finland    0      0      1
+## 81                      Moldova    0      0      1
+## 82                      Nigeria    0      0      1
+## 83         United Arab Emirates    0      0      1
+## 84                     Portugal    0      0      1
+## 85                      Estonia    0      0      1
+## 86                      Austria    0      0      1
+## 87           Dominican Republic    0      0      1</code></pre>
+<pre class="r"><code>arrange(Rio2016Medals, Bronze) %&gt;% View() #Pipe the results into View function</code></pre>
+</div>
+<div id="selecting-columns---select" class="section level4">
+<h4>Selecting columns - <code>select()</code></h4>
+<pre class="r"><code>select(mpg, manufacturer, hwy)</code></pre>
+<pre><code>## # A tibble: 234 × 2
+##    manufacturer   hwy
+##    &lt;chr&gt;        &lt;int&gt;
+##  1 audi            29
+##  2 audi            29
+##  3 audi            31
+##  4 audi            30
+##  5 audi            26
+##  6 audi            26
+##  7 audi            27
+##  8 audi            26
+##  9 audi            25
+## 10 audi            28
+## # … with 224 more rows</code></pre>
+<pre class="r"><code>select(mpg, starts_with(&quot;d&quot;))</code></pre>
+<pre><code>## # A tibble: 234 × 2
+##    displ drv  
+##    &lt;dbl&gt; &lt;chr&gt;
+##  1   1.8 f    
+##  2   1.8 f    
+##  3   2   f    
+##  4   2   f    
+##  5   2.8 f    
+##  6   2.8 f    
+##  7   3.1 f    
+##  8   1.8 4    
+##  9   1.8 4    
+## 10   2   4    
+## # … with 224 more rows</code></pre>
+<pre class="r"><code>select(mpg, manufacturer, hwy) %&gt;% filter(manufacturer == &quot;chevrolet&quot;, hwy &gt;= 20)</code></pre>
+<pre><code>## # A tibble: 12 × 2
+##    manufacturer   hwy
+##    &lt;chr&gt;        &lt;int&gt;
+##  1 chevrolet       20
+##  2 chevrolet       20
+##  3 chevrolet       26
+##  4 chevrolet       23
+##  5 chevrolet       26
+##  6 chevrolet       25
+##  7 chevrolet       24
+##  8 chevrolet       27
+##  9 chevrolet       30
+## 10 chevrolet       26
+## 11 chevrolet       29
+## 12 chevrolet       26</code></pre>
+</div>
+<div id="creating-new-variables---mutate" class="section level4">
+<h4>Creating new variables - <code>mutate()</code></h4>
+<pre class="r"><code>mutate(Rio2016Medals, Total=Gold+Silver+Bronze)</code></pre>
+<pre><code>##                         Country Gold Silver Bronze Total
+## 1                 United States   46     37     38   121
+## 2                   South Korea    9      3      9    21
+## 3                        France   10     18     14    42
+## 4                     Australia    8     11     10    29
+## 5                       Germany   17     10     15    42
+## 6                        Taiwan    1      0      2     3
+## 7                        Russia   19     18     19    56
+## 8                        Brazil    7      6      6    19
+## 9                United Kingdom   27     23     17    67
+## 10                        Japan   12      8     21    41
+## 11                      Ukraine    2      5      4    11
+## 12                       Greece    3      1      2     6
+## 13                        China   26     18     26    70
+## 14                  North Korea    2      3      2     7
+## 15                  Netherlands    8      7      4    19
+## 16                  Switzerland    3      2      2     7
+## 17                     Ethiopia    1      2      5     8
+## 18                        Kenya    6      6      1    13
+## 19                       Canada    4      3     15    22
+## 20                      Jamaica    6      3      2    11
+## 21                        Spain    7      4      6    17
+## 22                  New Zealand    4      9      5    18
+## 23                      Algeria    0      2      0     2
+## 24                      Bahamas    1      0      1     2
+## 25                 South Africa    2      6      2    10
+## 26                      Grenada    0      1      0     1
+## 27                       Turkey    1      3      4     8
+## 28                     Slovakia    2      2      0     4
+## 29                       Poland    2      3      6    11
+## 30                   Tajikistan    1      0      0     1
+## 31                      Belarus    1      4      4     9
+## 32                        Qatar    0      1      0     1
+## 33          Trinidad and Tobago    0      0      1     1
+## 34                       Mexico    0      3      2     5
+## 35                      Bahrain    1      1      0     2
+## 36                      Denmark    2      6      7    15
+## 37                      Burundi    0      1      0     1
+## 38                         Cuba    5      2      4    11
+## 39                      Croatia    5      3      2    10
+## 40                      Belgium    2      2      2     6
+## 41                     Bulgaria    0      1      2     3
+## 42               Czech Republic    1      2      7    10
+## 43                       Serbia    2      4      2     8
+## 44                      Hungary    8      3      4    15
+## 45                   Kazakhstan    3      5      9    17
+## 46                     Colombia    3      2      3     8
+## 47                    Venezuela    0      1      2     3
+## 48                     Malaysia    0      4      1     5
+## 49                    Indonesia    1      2      0     3
+## 50                        India    0      1      1     2
+## 51                        Italy    8     12      8    28
+## 52                   Uzbekistan    4      2      7    13
+## 53                     Mongolia    0      1      1     2
+## 54                   Azerbaijan    1      7     10    18
+## 55                      Morocco    0      0      1     1
+## 56                      Finland    0      0      1     1
+## 57                     Slovenia    1      2      1     4
+## 58                      Moldova    0      0      1     1
+## 59                    Lithuania    0      1      3     4
+## 60                       Sweden    2      6      3    11
+## 61                      Romania    1      1      3     5
+## 62                      Tunisia    0      0      3     3
+## 63                      Nigeria    0      0      1     1
+## 64                       Norway    0      0      4     4
+## 65                    Argentina    3      1      0     4
+## 66                       Israel    0      0      2     2
+## 67                      Georgia    2      1      4     7
+## 68         United Arab Emirates    0      0      1     1
+## 69                       Kosovo    1      0      0     1
+## 70                     Portugal    0      0      1     1
+## 71                      Ireland    0      2      0     2
+## 72                      Estonia    0      0      1     1
+## 73                         Fiji    1      0      0     1
+## 74                      Austria    0      0      1     1
+## 75                      Vietnam    1      1      0     2
+## 76 Independent Olympic Athletes    1      0      1     2
+## 77                    Singapore    1      0      0     1
+## 78                        Niger    0      1      0     1
+## 79           Dominican Republic    0      0      1     1
+## 80                     Thailand    2      2      2     6
+## 81                       Jordan    1      0      0     1
+## 82                Cote d&#39;Ivoire    1      0      1     2
+## 83                        Egypt    0      0      3     3
+## 84                         Iran    3      1      4     8
+## 85                  Puerto Rico    1      0      0     1
+## 86                      Armenia    1      3      0     4
+## 87                  Philippines    0      1      0     1</code></pre>
+</div>
+<div id="collapse-many-values-down-to-a-single-summary---summarise" class="section level4">
+<h4>Collapse many values down to a single summary -
+<code>summarise()</code></h4>
+<pre class="r"><code>summarise(mpg, avg=mean(hwy))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##     avg
+##   &lt;dbl&gt;
+## 1  23.4</code></pre>
+<pre class="r"><code>group_by(mpg, year, manufacturer) %&gt;% summarise(count=n())</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;year&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 30 × 3
+## # Groups:   year [2]
+##     year manufacturer count
+##    &lt;int&gt; &lt;chr&gt;        &lt;int&gt;
+##  1  1999 audi             9
+##  2  1999 chevrolet        7
+##  3  1999 dodge           16
+##  4  1999 ford            15
+##  5  1999 honda            5
+##  6  1999 hyundai          6
+##  7  1999 jeep             2
+##  8  1999 land rover       2
+##  9  1999 lincoln          2
+## 10  1999 mercury          2
+## # … with 20 more rows</code></pre>
+<pre class="r"><code>group_by(mpg, manufacturer) %&gt;% summarise(count=n_distinct(model)) #Unique models produced by each manufacturer</code></pre>
+<pre><code>## # A tibble: 15 × 2
+##    manufacturer count
+##    &lt;chr&gt;        &lt;int&gt;
+##  1 audi             3
+##  2 chevrolet        4
+##  3 dodge            4
+##  4 ford             4
+##  5 honda            1
+##  6 hyundai          2
+##  7 jeep             1
+##  8 land rover       1
+##  9 lincoln          1
+## 10 mercury          1
+## 11 nissan           3
+## 12 pontiac          1
+## 13 subaru           2
+## 14 toyota           6
+## 15 volkswagen       4</code></pre>
+<pre class="r"><code>mutate(mpg, HwyCtyRatio = hwy/cty) #Create new variable HwyCtyRatio</code></pre>
+<pre><code>## # A tibble: 234 × 12
+##    manufac…¹ model displ  year   cyl trans drv     cty   hwy fl    class HwyCt…²
+##    &lt;chr&gt;     &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;
+##  1 audi      a4      1.8  1999     4 auto… f        18    29 p     comp…    1.61
+##  2 audi      a4      1.8  1999     4 manu… f        21    29 p     comp…    1.38
+##  3 audi      a4      2    2008     4 manu… f        20    31 p     comp…    1.55
+##  4 audi      a4      2    2008     4 auto… f        21    30 p     comp…    1.43
+##  5 audi      a4      2.8  1999     6 auto… f        16    26 p     comp…    1.62
+##  6 audi      a4      2.8  1999     6 manu… f        18    26 p     comp…    1.44
+##  7 audi      a4      3.1  2008     6 auto… f        18    27 p     comp…    1.5 
+##  8 audi      a4 q…   1.8  1999     4 manu… 4        18    26 p     comp…    1.44
+##  9 audi      a4 q…   1.8  1999     4 auto… 4        16    25 p     comp…    1.56
+## 10 audi      a4 q…   2    2008     4 manu… 4        20    28 p     comp…    1.4 
+## # … with 224 more rows, and abbreviated variable names ¹​manufacturer,
+## #   ²​HwyCtyRatio</code></pre>
+</div>
+</div>
+<div id="combining-datasets" class="section level3">
+<h3>Combining Datasets</h3>
+<pre class="r"><code>#install.packages(&quot;nycflights13&quot;)
+library(nycflights13)</code></pre>
+<pre class="r"><code>flights2 &lt;- flights %&gt;% select(year:day, hour, origin, dest, tailnum, carrier)
+flights2</code></pre>
+<pre><code>## # A tibble: 336,776 × 8
+##     year month   day  hour origin dest  tailnum carrier
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  
+##  1  2013     1     1     5 EWR    IAH   N14228  UA     
+##  2  2013     1     1     5 LGA    IAH   N24211  UA     
+##  3  2013     1     1     5 JFK    MIA   N619AA  AA     
+##  4  2013     1     1     5 JFK    BQN   N804JB  B6     
+##  5  2013     1     1     6 LGA    ATL   N668DN  DL     
+##  6  2013     1     1     5 EWR    ORD   N39463  UA     
+##  7  2013     1     1     6 EWR    FLL   N516JB  B6     
+##  8  2013     1     1     6 LGA    IAD   N829AS  EV     
+##  9  2013     1     1     6 JFK    MCO   N593JB  B6     
+## 10  2013     1     1     6 LGA    ORD   N3ALAA  AA     
+## # … with 336,766 more rows</code></pre>
+<pre class="r"><code>flights2 %&gt;% left_join(airlines, by=&quot;carrier&quot;)</code></pre>
+<pre><code>## # A tibble: 336,776 × 9
+##     year month   day  hour origin dest  tailnum carrier name                    
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;                   
+##  1  2013     1     1     5 EWR    IAH   N14228  UA      United Air Lines Inc.   
+##  2  2013     1     1     5 LGA    IAH   N24211  UA      United Air Lines Inc.   
+##  3  2013     1     1     5 JFK    MIA   N619AA  AA      American Airlines Inc.  
+##  4  2013     1     1     5 JFK    BQN   N804JB  B6      JetBlue Airways         
+##  5  2013     1     1     6 LGA    ATL   N668DN  DL      Delta Air Lines Inc.    
+##  6  2013     1     1     5 EWR    ORD   N39463  UA      United Air Lines Inc.   
+##  7  2013     1     1     6 EWR    FLL   N516JB  B6      JetBlue Airways         
+##  8  2013     1     1     6 LGA    IAD   N829AS  EV      ExpressJet Airlines Inc.
+##  9  2013     1     1     6 JFK    MCO   N593JB  B6      JetBlue Airways         
+## 10  2013     1     1     6 LGA    ORD   N3ALAA  AA      American Airlines Inc.  
+## # … with 336,766 more rows</code></pre>
 </div>
 </div>
 

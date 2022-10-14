@@ -27,7 +27,7 @@ data.frame(variable = names(mpg),
            row.names = NULL) %>% kable()
 ```
 
-
+#### Selecting rows/observations - `filter()`
 ```{r}
 filter(mpg, manufacturer == 'audi')
 ```
@@ -43,3 +43,103 @@ filter(mpg, displ > 2, cyl > 6)
 ```{r}
 filter(mpg, manufacturer == "audi", year == 1999)
 ```
+
+```{r}
+filter(mpg, manufacturer == "audi" | year == 1999) #manufacturer is Audi or the year is 1999
+```
+
+```{r}
+filter(mpg, year == 1999, manufacturer != "audi") #manufacturer is not Audi and the year is 1999
+```
+
+```{r}
+filter(mpg, (manufacturer %in% c("audi", "chevrolet")), year == 1999) %>% count(manufacturer)
+```
+
+```{r}
+sample_frac(mpg, 0.05, replace = TRUE) #sample 5% of the data
+```
+
+```{r}
+sample_n(mpg, 10, replace = TRUE) #sample of 10 rows
+```
+
+```{r echo = FALSE, include = FALSE}
+Rio2016Medals <- read.csv("Rio2016(1).csv")
+```
+
+#### Reordering rows - `arrange()`
+
+```{r}
+arrange(Rio2016Medals, Country)
+```
+
+```{r}
+arrange(Rio2016Medals, desc(Country)) #Descending order
+```
+
+```{r}
+arrange(Rio2016Medals, desc(Gold), desc(Silver), desc(Bronze))
+```
+
+```{r results=FALSE}
+arrange(Rio2016Medals, Bronze) %>% View() #Pipe the results into View function
+```
+
+#### Selecting columns - `select()`
+
+```{r}
+select(mpg, manufacturer, hwy)
+```
+
+```{r}
+select(mpg, starts_with("d"))
+```
+
+```{r}
+select(mpg, manufacturer, hwy) %>% filter(manufacturer == "chevrolet", hwy >= 20)
+```
+
+#### Creating new variables - `mutate()`
+
+```{r}
+mutate(Rio2016Medals, Total=Gold+Silver+Bronze)
+```
+
+#### Collapse many values down to a single summary - `summarise()`
+
+```{r}
+summarise(mpg, avg=mean(hwy))
+```
+
+```{r}
+group_by(mpg, year, manufacturer) %>% summarise(count=n())
+```
+
+```{r}
+group_by(mpg, manufacturer) %>% summarise(count=n_distinct(model)) #Unique models produced by each manufacturer
+```
+
+```{r}
+mutate(mpg, HwyCtyRatio = hwy/cty) #Create new variable HwyCtyRatio
+```
+
+### Combining Datasets
+
+```{r results=FALSE}
+#install.packages("nycflights13")
+library(nycflights13)
+```
+
+```{r}
+flights2 <- flights %>% select(year:day, hour, origin, dest, tailnum, carrier)
+flights2
+```
+
+```{r}
+flights2 %>% left_join(airlines, by="carrier")
+```
+
+
+
+
