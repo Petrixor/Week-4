@@ -2,7 +2,9 @@
 title: "Week 4"
 author: "Yuqi Gao"
 date: "2022-10-14"
-output: html_document
+output: 
+  html_document:
+    theme: spacelab
 ---
 
 ```{r setup, include=FALSE}
@@ -140,6 +142,42 @@ flights2
 flights2 %>% left_join(airlines, by="carrier")
 ```
 
+### Working with real data
 
+```{r}
+meals <- read.csv("freeschoolmeals.csv")
+sample_frac(meals, 0.1, replace = TRUE)
+```
 
+```{r}
+summary(meals$FSMTaken)
+```
 
+```{r}
+mean(meals$FSMTaken, na.rm = TRUE) #Remove NA values
+```
+
+```{r}
+actualFSMTaken <- filter(meals, FSMTaken < 9999 | is.na(FSMTaken))
+sample_frac(actualFSMTaken, 0.1, replace = TRUE)
+mean(actualFSMTaken$FSMTaken, na.rm = TRUE)
+```
+
+```{r}
+#ifelse(a,b,c): if a is true assign value b, else assign value c
+actualFSMTaken %>% mutate(newFSMTaken= ifelse(is.na(FSMTaken), floor(mean(FSMTaken, na.rm = TRUE)), FSMTaken))
+```
+
+```{r}
+Newmeals <- meals %>% mutate(newFSMTaken = ifelse(FSMTaken == 9999, 4, FSMTaken)) #Replace 9999 with 4
+summary(Newmeals)
+```
+
+```{r}
+mean(Newmeals$newFSMTaken, na.rm = TRUE)
+```
+
+```{r}
+Newmeals2 <- meals %>% mutate(newFSMTaken = ifelse(FSMTaken == 9999, 0, FSMTaken)) #Replace 9999 with 0
+mean(Newmeals2$newFSMTaken, na.rm = TRUE)
+```
