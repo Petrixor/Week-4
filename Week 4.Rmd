@@ -3,8 +3,8 @@ title: "Week 4"
 author: "Yuqi Gao"
 date: "2022-10-14"
 output: 
-  html_document:
-    theme: spacelab
+  prettydoc::html_pretty:
+    theme: hpstr
 ---
 
 ```{r setup, include=FALSE}
@@ -14,6 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Week 4
 
 ### Data transformation and the `dplyr` package
+
 ```{r echo=FALSE, include=FALSE}
 #install.packages('tidyverse')
 library(tidyverse)
@@ -30,6 +31,7 @@ data.frame(variable = names(mpg),
 ```
 
 #### Selecting rows/observations - `filter()`
+
 ```{r}
 filter(mpg, manufacturer == 'audi')
 ```
