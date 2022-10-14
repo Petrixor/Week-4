@@ -1,0 +1,45 @@
+---
+title: "Week 4"
+author: "Yuqi Gao"
+date: "2022-10-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Week 4
+
+### Data transformation and the `dplyr` package
+```{r echo=FALSE, include=FALSE}
+#install.packages('tidyverse')
+library(tidyverse)
+library(magrittr)
+library(knitr)
+library(dplyr)
+```
+
+```{r}
+data.frame(variable = names(mpg),
+           classe = sapply(mpg, typeof),
+           first_values = sapply(mpg, function(x) paste0(head(x),  collapse = ", ")),
+           row.names = NULL) %>% kable()
+```
+
+
+```{r}
+filter(mpg, manufacturer == 'audi')
+```
+
+```{r}
+filter(mpg, displ > 2)
+```
+
+```{r}
+filter(mpg, displ > 2, cyl > 6)
+```
+
+```{r}
+filter(mpg, manufacturer == "audi", year == 1999)
+```
